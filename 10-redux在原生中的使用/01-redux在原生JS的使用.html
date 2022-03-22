@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div>
+    <h2>数量：<span class="num"></span></h2>
+    <button>+1</button>
+    <button>-1</button>
+    <button>+5</button>
+    <button>-5</button>
+  </div>
+  <script src="../node_modules/redux/dist/redux.js"></script>
+  <script>
+    const num = document.querySelector('.num')
+    const reducer = (state = 0, action) => {
+      if (action.type === 'add') {
+        return state + 1
+      }
+      if (action.type === 'sub') {
+        return state - 1
+      }
+      if (action.type === 'addMore') {
+        return state + action.params
+      }
+      if (action.type === 'subMore') {
+        return state - action.params
+      }
+      return state
+    }
+    const store = new Redux.createStore(reducer)
+    document.querySelectorAll('button')[0].onclick = function () {
+      store.dispatch({ type: 'add' })
+    }
+    document.querySelectorAll('button')[1].onclick = function () {
+      store.dispatch({ type: 'sub' })
+    }
+    document.querySelectorAll('button')[2].onclick = function () {
+      store.dispatch({ type: 'addMore', params: 5 })
+    }
+    document.querySelectorAll('button')[3].onclick = function () {
+      store.dispatch({ type: 'subMore', params: 5 })
+    }
+    const unsubscribe = store.subscribe(function () {
+      num.innerHTML = store.getState()
+    })
+  </script>
+  <script>
+    // 1、redux是状态管理工具、不单单在react中使用，还可以在原生或者其他框架中使用
+    // 2、redux可以实现数据共享，但不会自动更新dom或者组件，如果在react项目中还需配合使用react-redux实现组件自动更新
+    // 3、因此仅使用redux的情况下，当redux管理的状态发生了变化，想要实现dom或者组件更新，必须手动store.subscribe()在该方法回调中订阅更新
+    // 4、new Redux.createStore(reducer)，其中reducer是一个函数，该函数必须提供两个参数state与action，
+    // 5、reducer函数第一参数state必须设置初始值，且reducer函数无论是否成功处理action对应的type，都必须返回state
+    // 6、reducer函数处理state时，不要修改源state，如果需要基于state做修改时，应该在不更改源state的同时进行深拷贝返回新的state
+    // 7、store.dispath(action)用于提交action分配任务，其中action是一个对象，该对象必须要有type属性，另外也可以携带其他参数
+    // 8、store.getState()可以获取reducer的最新状态
+    // 9、store.subscribe(()=>{ 此处可以进行订阅更新，实现dom或者组件的更新... })，
+    // 10、const unsubscribe = store.subscribe()，调用返回值函数unsubscribe可以取消订阅
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+
+    function add(a, b) {
+      return a + b
+    }
+
+    // 使用纯函数进行性能优化，因为需要拿到结果并存储因此需要闭包避免内存被释放掉
+    function outer(func) {
+      const cache = {}
+      return function (...args) {
+        const key = JSON.stringify(args) // 得到的key:"[1,2]" 
+        return cache[key] || (cache[key] = func.apply(this, args))
+      }
+    }
+
+    // 将add函数传入，得到一个会将结果缓存的新函数
+    // （函数调用完就会被释放，因此使用闭包让函数不会释放，也就可以将结果进行缓存）
+    const newadd = outer(add)
+    console.log(newadd(1, 2))
+    // "[1,2]":3 当传入的参数是1与2时，直接拿到之前得出的结果3，但如果传入的参数改变了就会重新计算结果
+    // 纯函数，无论调用几次得到的结果都一致（相同输入每次得到相同的输出）
+
+  </script>
+</body>
+
+</html>

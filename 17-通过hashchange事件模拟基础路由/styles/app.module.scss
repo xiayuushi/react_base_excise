@@ -1,0 +1,14 @@
+.app {
+  width: 375px;
+  height: 100vh;
+}
+
+.links {
+  display: flex;
+  box-sizing: border-box;
+
+  >li {
+    flex: 1;
+    text-align: center;
+  }
+}

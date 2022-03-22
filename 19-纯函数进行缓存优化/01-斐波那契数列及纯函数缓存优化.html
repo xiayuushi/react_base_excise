@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // 1 2 3 4 5 6  7  8  9 10 （第n位）
+    // 1 1 2 3 5 8 13 21 34 55 （第n位对应的数值）
+    // 斐波那契数列：前两数之和就是第三个数
+
+    function Tu(n) {
+      if (n === 1 || n === 2) {
+        return 1
+      }
+      return Tu(n - 2) + Tu(n - 1)
+    }
+    // 当位数太多的时候，计算无法得出结果，是因为进行了太多的重复计算，因此需要做性能优化  
+
+    function outer() {
+      const cache = []
+      return function Tu(n) {
+        if (n === 1 || n === 2) {
+          return 1
+        }
+        if (!cache[n]) {
+          cache[n] = Tu(n - 2) + Tu(n - 1)
+        }
+        return cache[n]
+      }
+    }
+    console.log(outer()(100))
+    // 将每次的计算结果进行缓存，减少不必要的重复计算，可以提高性能。之所以使用闭包，是为了防止内村释放及变量污染
+
+  </script>
+</body>
+
+</html>

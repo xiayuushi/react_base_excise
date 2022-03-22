@@ -1,0 +1,6 @@
+export const USER_NAME = 'USER_NAME'
+export const USER_AGE = 'USER_AGE'
+export const COUNT_SUB = 'COUNT_SUB'
+export const COUNT_ADD = 'COUNT_ADD'
+export const COUNT_SUBMORE = 'COUNT_SUBMORE'
+export const COUNT_ADDMORE = 'COUNT_ADDMORE'

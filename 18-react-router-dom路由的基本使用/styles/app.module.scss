@@ -1,0 +1,23 @@
+.app {
+  width: 375px;
+  height: 100vh;
+}
+
+.links {
+  display: flex;
+  box-sizing: border-box;
+
+  >li {
+    flex: 1;
+    text-align: center;
+  }
+}
+
+:global(.active) {
+  background-color: #0094ff;
+}
+
+:global(a) {
+  display: block;
+  padding: 20px;
+}

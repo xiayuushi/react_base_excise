@@ -1,0 +1,3 @@
+export const CHANNEL_GETLIST = 'CHANNEL_GETLIST'
+export const CHANNEL_GETID = 'CHANNEL_GETID'
+export const NEWS_GETLIST = 'NEWS_GETLIST'

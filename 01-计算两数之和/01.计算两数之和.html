@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>title</title>
+</head>
+
+<body>
+  <script>
+    // JS求超出精度范围的大数之和
+    //思路可借鉴json-bigint或bignumber.js这两个插件，将大数分割为数组元素转成字符串，因为字符串不会出现精度丢失
+    function add(a, b) {
+      let aList = a.toString().split('').reverse()
+      let bList = b.toString().split('').reverse()
+
+      if (a.toString().length > b.toString().length) {
+        // 等效于下方for循环补'0'，只是写法上更加简单，另外之所以采用a做length参照而不是aList，因为数组长度后续会变化，而传入的字符串长度不变
+        // new Array()传入数值则会返回一个相应长度的空数组
+        // Array.from()转成可以将伪数组或者数组转成一个新的数组，该方法可选第二参数，第二参数函数返回什么就会往数组元素中填充什么
+        bList = bList.concat(Array.from(new Array(a.toString().length - b.toString().length), () => '0'))
+      } else {
+        for (var i = 0; i < b.toString().length - a.toString().length; i++) {
+          aList.push('0')
+        }
+      }
+      // 十进一（先求和再判断是否进一及取余）
+      let isMore = false
+      const resList = aList.map((item, index) => {
+        let sum
+        isMore
+          ? sum = +item + +bList[index] + 1
+          : sum = +item + +bList[index]
+
+        if (sum >= 10) {
+          isMore = true
+          sum = sum % 10
+        } else {
+          isMore = false
+        }
+        return sum
+      })
+      return resList.reverse().join('')
+    }
+    console.log(add('1111222223333444455556666777788889999', '111')) // 1111222223333444455556666777788890110
+  </script>
+</body>
+
+
+</html>
